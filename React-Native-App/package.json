@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^1.6.7",
+    "react-native-image-picker": "^7.1.0"
+  }
+}
