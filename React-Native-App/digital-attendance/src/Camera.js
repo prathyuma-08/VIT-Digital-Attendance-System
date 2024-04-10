@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { View, Image, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 import { CameraType } from "expo-camera";
-import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
+import { Entypo, AntDesign} from '@expo/vector-icons';
 import axios from 'axios';
 
-export default function Camera() {
+export default function Camera({navigation}) {
 
   const [img, setImg] = useState(null);
   const [time, setTime] = useState(null);
@@ -19,38 +19,59 @@ export default function Camera() {
       alert("You've refused to allow this appp to access your camera!");
       return;
     }
-    const result = await ImagePicker.launchCameraAsync(
+    const res = await ImagePicker.launchCameraAsync(
       {
         cameraType: CameraType.front = "front",
       }
     );
 
-    if (!result.canceled) {
-      console.log(result);
-      setImg(result.assets[0].uri);
+    if (!res.canceled) {
+      console.log(res);
+      setImg(res.assets[0].uri);
       const currentDate = new Date();
       const dte = currentDate.toLocaleDateString(); // Format date only
       const time = currentDate.toLocaleTimeString();
       setDate(dte)
       setTime(time)
       setPosted("")
+      setResult("")
     }
   };
   async function postAttendance(){
     setPosted(true)
-    try {
-      const res = await axios.post('http://192.168.93.58:80/save_to_excel',{register_number:result},{
-        headers:  {
-          'accept': 'application/json',
-          'Accept-Language': 'en-US,en;q=0.8',
-          'Content-Type': 'application/json',
-        }
+      axios.post('http://172.20.10.2:5000/save_to_excel', {
+        register_number: result,
       })
-      console.log(res.data)
-    } catch (error) {
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    } 
+
+  async function getPrediction(){
+    try {
+      const data = new FormData();
+      data.append('image',
+        {
+          uri: img,
+          name: 'image.jpg',
+          type: 'image/jpg'
+        });
+
+    const img_res = await axios.post('http://172.20.10.2:5000/detect_faces', data, {
+      headers: {
+        'accept': 'application/json',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      }})
+    setResult(img_res.data.regno)
+    }catch (error) {
       console.log(error);
     }
   }
+
   async function fetchData() {
     try {
       const data = new FormData();
@@ -60,14 +81,21 @@ export default function Camera() {
           name: 'image.jpg',
           type: 'image/jpg'
         });
-      const res = await axios.post('http://192.168.93.58:80/detect_faces', data, {
+
+      const res = await axios.post('http://172.20.10.2:5000/liveliness',data,{
         headers: {
           'accept': 'application/json',
           'Accept-Language': 'en-US,en;q=0.8',
           'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
         }
       })
-      setResult(res.data.regno)
+      console.log(res.data.isreal);
+      if(res.data.isreal=='true'){
+        getPrediction()
+      }
+      else{
+        setResult("Image is fake. Try again")
+      }
     } catch (error) {
       console.log(error);
     }
@@ -78,6 +106,9 @@ export default function Camera() {
       <View>
         {img === null ? (
           <View style={styles.beforePic}>
+            <View>
+              <Text style={styles.text}> A - Block Hostel Attendance </Text>
+              </View>
             <TouchableOpacity style={styles.centerbutton} onPress={takeImageHandler}>
               <Text style={styles.buttonText}>Take Picture</Text>
             </TouchableOpacity>
@@ -101,9 +132,7 @@ export default function Camera() {
               <Text style={{ marginLeft: 5 }}>{result}</Text>
             </View>
             <View>
-            <TouchableOpacity onPress={fetchData}>
-              <FontAwesome name="refresh" size={20} color="black"/>
-            </TouchableOpacity>
+            <Button title="Get Name" onPress={fetchData}/>
             </View>
             </View>
             <View style={styles.afterPic}>
@@ -128,7 +157,8 @@ const styles = StyleSheet.create(
       padding: 20,
       borderRadius: 10,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      flex:1
     },
     centerbutton: {
       backgroundColor: '#B06161',
@@ -145,6 +175,9 @@ const styles = StyleSheet.create(
       width: 250,
       height: 400,
     },
+    text: {
+      fontFamily: 'OpenSans-Bold', fontSize: 30, alignSelf: 'center'
+  },
     time: {
       padding: 5,
       fontSize: 20,

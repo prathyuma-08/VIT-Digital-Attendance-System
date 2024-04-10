@@ -2,6 +2,7 @@
   "expo": {
     "name": "digital-attendance",
     "slug": "digital-attendance",
+    "scheme": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,12 +28,20 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      [
-        "expo-camera",
+       [ "expo-camera",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
-        }
-      ]
-    ]
+        }],
+      ["expo-font",
+              {
+                "fonts": ["./assets/fonts/OpenSans-Bold.ttf"]
+              }],
+              [
+                "expo-local-authentication",
+                {
+                  "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+                }
+              ]
+        ]
   }
 }
