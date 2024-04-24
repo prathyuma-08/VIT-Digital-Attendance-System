@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 model = load_model(os.path.join(save_path,"liveness.h5"))
 
 # Load the image taken from camera
-img_path = 'D:\VIT\Learning\Digital Attendance Full\myqrcode.png'
+img_path = 'D:/VIT/Learning/Digital Attendance Full/received.jpg'
 img = image.load_img(img_path, target_size=(128, 128))
 
 # Preprocess the image
