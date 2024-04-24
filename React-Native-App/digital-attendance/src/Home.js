@@ -5,6 +5,7 @@ import {Dimensions} from 'react-native';
 import { useLinkTo } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { useUserContext } from "./Context";
+import QR from "./QR";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -50,7 +51,8 @@ export default function Home() {
             <Text style={styles.text}>You are now logged in as , {user.name}</Text>
             <MaterialCommunityIcons name="hand-wave" size={24} color="#ffd459" />
         </View>
-        <TouchableOpacity style={styles.logout} onPress={getPermissions}>
+        <QR/>
+        {/* <TouchableOpacity style={styles.logout} onPress={getPermissions}>
             <FontAwesome5 name="search-location" size={24} color="white" />
             <Text style={styles.logoutText}>Verify Location</Text>
         </TouchableOpacity>
@@ -59,11 +61,12 @@ export default function Home() {
                 <TouchableOpacity style={styles.logout} onPress={()=>{linkTo("/camera")}}>
                     <Text style={styles.logoutText}>Go to Camera</Text></TouchableOpacity></View>: (
         <Text style={styles.qrtext}>Try verifying in proper location</Text>
-      )}
+      )} */}
         <TouchableOpacity style={styles.logout} onPress={logOut}>
             <SimpleLineIcons name="logout" size={24} color="white" />
             <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
+       
         </View>)
 }
 

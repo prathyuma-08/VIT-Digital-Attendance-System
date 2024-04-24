@@ -12,6 +12,10 @@ export default function Fac(){
         setModalVisible(true)
     }
 
+    const generateQR = () =>{
+        
+    }
+
     const [modalVisible, setModalVisible] = useState(false);
     const [minshowPicker, setminShowPicker] = useState(false);
     const [maxshowPicker, setmaxShowPicker] = useState(false);
@@ -21,12 +25,12 @@ export default function Fac(){
     return(
         <View style={styles.container}>
             <Text style={styles.welcomeText}>Welcome, Employee {user.name}</Text>
-            {/* <View style={styles.option}>
-            <TouchableOpacity style={styles.qrbutton}>
+            <View style={styles.option}>
+            <TouchableOpacity style={styles.qrbutton} onPress={generateQR}>
                 <Text style={styles.btntext}> Show QR </Text>
                 <Ionicons name="qr-code-sharp" size={24} color="white" />
             </TouchableOpacity>
-            </View> */}
+            </View>
         <Modal
         animationType="slide"
         transparent={true}
@@ -89,13 +93,6 @@ export default function Fac(){
                 <Ionicons name="cloud-download-outline" size={24} color="white"/>
             </TouchableOpacity>
             </View>
-
-            {/* <View style={styles.option}>
-            <TouchableOpacity style={styles.qrbutton}>
-                <Text style={styles.btntext}> Train new </Text>
-                <Ionicons name="people" size={24} color="white" />
-            </TouchableOpacity>
-            </View> */}
             
             <TouchableOpacity style={styles.logout} onPress={logOut}>
             <SimpleLineIcons name="logout" size={24} color="white" />

@@ -23,7 +23,8 @@ export default function QR({}){
 
       const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
-        setData(data.replace('http://',''));
+        setData(data.slice(0,7))
+        console.log(data)
       };
     
       if (hasPermission === null) {
@@ -42,8 +43,9 @@ export default function QR({}){
         style={styles.qrcam}
       />
       {scanned && (
-        <TouchableOpacity style={styles.qrcodebtn} onPress={() => {linkTo(data)
-        setScanned(false)}}>
+        <TouchableOpacity style={styles.qrcodebtn} onPress={() => {setScanned(false) 
+        linkTo(data)
+        }}>
           <Text style={styles.clicktext}>Go to Camera</Text>
         </TouchableOpacity>
       )}

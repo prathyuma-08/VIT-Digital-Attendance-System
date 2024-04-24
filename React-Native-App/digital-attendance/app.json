@@ -16,32 +16,53 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to use Face ID."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ],
+      "package": "com.prathyuma08.digitalattendance"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-       [ "expo-camera",
+      [
+        "expo-camera",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
-        }],
-      ["expo-font",
-              {
-                "fonts": ["./assets/fonts/OpenSans-Bold.ttf"]
-              }],
-              [
-                "expo-local-authentication",
-                {
-                  "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
-                }
-              ]
-        ]
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/OpenSans-Bold.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9f686864-791d-4779-8ef6-c09701eb1ce6"
+      }
+    }
   }
 }

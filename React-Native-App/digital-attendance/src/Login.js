@@ -21,7 +21,7 @@ export default function Login() {
   async function loginCheck(){
     axios({
       method: "post",
-      url: "http://172.20.10.2:5000/login",
+      url: "http://192.168.211.33:5000/login",
       data: bodyFormData,
       headers: { "Content-Type": "multipart/form-data" },
     })
@@ -51,15 +51,15 @@ export default function Login() {
       <Image style={styles.image} source={require('../assets/VIT.png')}/>
       {user.role === null ? (
         <>
-        <View style={styles.textWrapper}>
+        {/* <View style={styles.textWrapper}>
         <Text style={styles.text}>Whom do you want to login as ?</Text>
-        </View>
+        </View> */}
         <View style={styles.wrapper}>
-            <TouchableOpacity style={styles.roleWrapper} onPress={() => setRole('Teacher')}>
-              {/* <FontAwesome5 name="chalkboard-teacher" size={80} color="#ffffff" /> */}
-              <MaterialIcons name="admin-panel-settings" size={80} color="#ffffff" />
+            {/* <TouchableOpacity style={styles.roleWrapper} onPress={() => setRole('Teacher')}>
+              /* <FontAwesome5 name="chalkboard-teacher" size={80} color="#ffffff" /> */
+              /* <MaterialIcons name="admin-panel-settings" size={80} color="#ffffff" />
               <Text style={styles.roleText}>Admin</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */} 
 
             <TouchableOpacity style={styles.roleWrapper} onPress={() => setRole('Student')}>
               <FontAwesome5 name="book-reader" size={80} color="#ffffff" />
